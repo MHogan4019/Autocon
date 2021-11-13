@@ -12,14 +12,30 @@ echo "What are you trying to do?"
                                         read -r -p "What is the IP: "
                                         ip=$REPLY
                                         question='What do you want to find?: '
-                                        options=("OS" "QUIT")
+                                        options=("OS" "Port" "QUIT")
                                         select answer in "${options[@]}"; do
                                                 case $answer in
                                                         "OS")
                                                                 nmap -O $ip
                                                                 ;;
+							"Port") options2=("All" "Just TCP" "Just UDP")
+								select answer in "${options2[@]}"; do
+									case $answer in
+										"All")
+											nmap -p- -sU -sT $ip
+											;;
+										"Just TCP")
+											nmap -sT $ip
+											;;
+										"Just UDP")
+											nmap -sU $ip
+											;;
+									esac
+								done
+								;;
                                                         "QUIT")
                                                                 exit
+								;;
                                                 esac
                                         done
 
