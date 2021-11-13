@@ -8,3 +8,6 @@ stty -echo
 read -r PASSWORD
 stty "$stty_orig"
 echo $PASSWORD | sudo nmap -sU
+
+tshark -r network.pcap -T fields -e ip.src -e ip.dst | sort | uniq -c | sort -n
+
