@@ -12,9 +12,12 @@ echo "What are you trying to do?"
                                         read -r -p "What is the IP: "
                                         ip=$REPLY
                                         question='What do you want to find?: '
-                                        options=("OS and Services" "Port" "Ping" "Show Hosts" "Security Scans" "QUIT")
+                                        options=("Create Report" "OS and Services" "Port" "Ping" "Show Hosts" "Security Scans" "QUIT")
                                         select answer in "${options[@]}"; do
                                                 case $answer in
+							"Create Report")
+								nmap -sS -T4 -A -sC -oA report --webxml $ip 
+								;; 
                                                         "OS and Services") options3=("Both" "Just OS" "Just Services")
                                                                 select answer in "${options3[@]}"; do
 									case $answer in
