@@ -12,23 +12,79 @@ echo "What are you trying to do?"
                                         read -r -p "What is the IP: "
                                         ip=$REPLY
                                         question='What do you want to find?: '
-                                        options=("OS" "Port" "QUIT")
+                                        options=("OS and Services" "Port" "Ping" "Show Hosts" "Security Scans" "QUIT")
                                         select answer in "${options[@]}"; do
                                                 case $answer in
-                                                        "OS")
-                                                                nmap -O $ip
+                                                        "OS and Services") options3=("Both" "Just OS" "Just Services")
+                                                                select answer in "${options3[@]}"; do
+									case $answer in
+										"Both")
+											nmap -A $ip
+											;;
+										"Just OS")
+											nmap -O $ip
+											;;
+										"Just Services")
+											nmap -sV $ip
+											;;
+									esac
+								done
                                                                 ;;
-							"Port") options2=("All" "Just TCP" "Just UDP")
+							"Port") 
+								echo "Port Scan With Auto Port Escalation (Nikto)"
+								options2=("All" "Just TCP" "Just UDP")
 								select answer in "${options2[@]}"; do
 									case $answer in
 										"All")
 											nmap -p- -sU -sT $ip
+												if nmap -sT $ip | grep -w "80/tcp"
+                                                                                                then    
+                                                                                                        nikto -host $ip
+                                                                                                fi  
 											;;
 										"Just TCP")
-											nmap -sT $ip
+											nmap -sT $ip 
+												if nmap -sT $ip | grep -w "80/tcp"
+												then 
+													nikto -host $ip
+												fi
 											;;
 										"Just UDP")
 											nmap -sU $ip
+												if nmap -sT $ip | grep -w "80/tcp"
+                                                                                                then    
+                                                                                                        nikto -host $ip
+                                                                                                fi  
+											;;
+									esac
+								done
+								;;
+							"Ping")
+								nmap -sn $ip
+								;;
+							"Show Hosts") optionsh=("Online Hosts" "All Hosts")
+								select answer in "${optionsh[@]}"; do
+									case $answer in
+										"Online Hosts")
+											nmap -sL $ip
+											;;
+										"All Hosts")
+											nmap -Pn $ip
+											;;
+									esac
+								done
+								;;
+							"Security Scans") optionss=("Firewall Detection" "Malware Scan" "Vulnerability Scan")
+								select answer in "${optionss[@]}"; do
+									case $answer in
+										"Firewall Detection")
+											nmap -sA $ip
+											;;
+										"Malware Scan")
+											nmap -sV --script =http-malware-host $ip
+											;;
+										"Vulnerability Scan")
+											nmap -Pn --script vuln $ip
 											;;
 									esac
 								done
