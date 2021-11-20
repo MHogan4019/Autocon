@@ -166,21 +166,22 @@ Security Scans
 
 leave() {
 	clock="date +%H"
-	if [$clock -lt 12]; then 
-		echo Good Morning
+	if date +"%H" | grep "[6/7/8/9/10/11/]" 
+	then 
+		echo Don't forget your morning coffee
 		exit 0
 
-	elif date +"%H" | grep "[12-16]"
+	elif date +"%H" | grep "[12/13/14/15/16]"
 	then
-		echo Good Afternoon
+		echo Have a speedy afternoon
 		exit 0
 
-	elif date +"%H" | grep "[16-20]"
+	elif date +"%H" | grep "[17/18/19/20]"
 	then
-		echo Good Evening
+		echo Loading Moon
 		exit 0
 	else
-		echo Good Night
+		echo Time to refuel in bed
 		exit 0
 	fi
 }

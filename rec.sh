@@ -10,7 +10,7 @@ Choose an option:  "
 	read -r ans
 	case $ans in
 	1)
-		mainmenu
+		tsharkmenu
 		;;
 	2)	nmapmenu
 		;;
@@ -30,11 +30,29 @@ Choose an option:  "
 nmapmenu() {
 	echo -ne "
 NMAP
+1)Check Local Network
+2)Enter IP
+Choose an option "
+	read -r ans
+	case $ans in
+	1)
+		ip addr show
+		arp -a 
+		nmapmenu
+		;;
+	2)
+		getip
+		nmapoptions
+		;;
+	esac
+} 
+
+getip() {
+	echo -ne "
 What is the IP? "
 	read -r
 	ip=$REPLY
-	nmapoptions
-} 
+}
 
 nmapoptions() {
 	echo -ne "
@@ -164,5 +182,180 @@ Security Scans
 	esac
 }
 
+tsharkmenu() {
+    echo -ne "
+How would you like to use tshark?
+1) Read Packet Data
+2) Most Frequent Source IP
+3) Most Frequent Destination IP
+0) Exit
+Choose an option: "
+	read -r ans
+	case $ans in
+	1)
+		packetdatamenu
+		;;
+	2)
+		ipsourcemenu
+		;;
+	3)
+		ipdestinationmenu
+		;;
+	0)
+        	echo "Bye bye."
+		exit 0
+		;;
+	*)
+		echo "Wrong option."
+		mainmenu
+		;;
+	esac
+}
+
+packetdatamenu() {
+	echo -ne "
+Read Packet Data 
+What is the Pcap File? " 
+	read -r 
+	Pcap=$REPLY
+	saveoptions
+}
+
+savename() {
+	echo -ne "
+What would you like to name the file? "
+
+	read -r 
+	file=$REPLY
+}
+
+saveoptions() {
+	echo -ne "
+Save to file?
+1) Yes
+2) No
+Choose an option: " 
+
+	read -r ans
+	case $ans in 
+	1)
+		savename
+		tshark -r $Pcap > $file.txt
+		reportoptions
+		;;
+	2)
+		tshark -r $Pcap
+		reportoptions
+		;;
+	esac
+}
+
+reportoptions() {
+	echo -ne "
+Would you like to run another report?
+1) Yes
+2) No 
+Choose an option: "
+
+	read -r ans
+	case $ans in
+	1)
+		mainmenu
+		;;
+	2)
+		echo "Bye bye."
+		exit 0
+		;;
+	esac
+}
+
+ipsourcemenu() {
+	echo -ne "
+Most frequent IP Address 
+What is the Pcap file? "
+	read -r
+	pcap2=$REPLY
+        saveoptions2
+}
+
+saveoptions2() {
+        echo -ne "
+Save to file? 
+1) Yes
+2) No 
+Choose an option: "
+
+        read -r ans
+        case $ans in 
+        1)
+		savename
+                tshark -r $pcap2 -T fields -e ip.src | sort | uniq -c | sort -n > $file.txt  
+                reportoptions
+                ;;
+
+        2)
+                tshark -r $pcap2 -T fields -e ip.src | sort | uniq -c | sort -n
+		reportoptions
+                ;;
+	esac
+}
+
+ipdestinationmenu() {
+	 echo -ne "
+Most frequent IP Address 
+What is the Pcap file? "
+        read -r
+        pcap2=$REPLY
+        saveoptions3
+
+}
+saveoptions3() {
+	echo -ne "
+Save to file?
+1) Yes
+2) No
+Choose an option: "
+
+	read -r ans
+	case $ans in 
+	1)
+		savename
+		tshark -r $pcap2 -T fields -e ip.dst | sort | uniq -c | sort -n > $file.txt
+                reportoptions
+		;;
+	2)
+		tshark -r $pcap2 -T fields -e ip.dst | sort | uniq -c | sort -n
+                reportoptions
+		;;
+	esac
+}
+
+title() {
+	echo -ne "
+Fueling System..."
+
+speed
+
+
 mainmenu
+}
+
+speed() {
+	echo -ne '
+------------------------------------------------
+_______       _____
+___    |___  ___  /_________________________
+__  /| |  / / /  __/  __ \  ___/  __ \_  __ \
+_  ___ / /_/ // /_ / /_/ / /__ / /_/ /  / / /
+/_/  |_\__,_/ \__/ \____/\___/ \____//_/ /_/
+
+Autocon 1.2
+Forged by JAML-2106 Team
+JAML2106@gmail.com
+
+- - - - - - - - - - - - - - - - - - - - - - - -
+'
+}
+
+title
 
