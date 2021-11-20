@@ -49,7 +49,7 @@ Choose an option: "
 	read -r ans
 	case $ans in 
 	1)
-		tshark -r $Pcap > packet_data
+		tshark -r $Pcap > packet_data.txt
 		echo "Saved to file! -> packet_data"
 		reportoptions
 		;;
@@ -98,7 +98,7 @@ Choose an option: "
         read -r ans
         case $ans in 
         1)
-                tshark -r $pcap2 -T fields -e ip.src | sort | uniq -c | sort -n > Most_Src_IP
+                tshark -r $pcap2 -T fields -e ip.src | sort | uniq -c | sort -n > Most_Src_IP.txt
                 echo "Saved to file! -> Most_Src_IP"
                 reportoptions
                 ;;
