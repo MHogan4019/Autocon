@@ -164,26 +164,5 @@ Security Scans
 	esac
 }
 
-leave() {
-	clock="date +%H"
-	if [$clock -lt 12]; then 
-		echo Good Morning
-		exit 0
-
-	elif date +"%H" | grep "[12-16]"
-	then
-		echo Good Afternoon
-		exit 0
-
-	elif date +"%H" | grep "[16-20]"
-	then
-		echo Good Evening
-		exit 0
-	else
-		echo Good Night
-		exit 0
-	fi
-}
-
 mainmenu
 
