@@ -337,12 +337,17 @@ Choose an option: "
 
 capturedatamenu() {
 	echo -ne "
-Enter the name of the file you would like to save your data: "
+Enter the name of the file you would like to save your data: " 
+	read -r
+	Datafile=$REPLY
+	echo -ne "
+For how many seconds would you like to capture data: "
 	read -r 
-        Datafile=$REPLY
-        tshark -a duration:60 -w /tmp/$Datafile.pcap
+	duration=$REPLY
+        tshark -a duration:$duration -w /tmp/$Datafile.pcap
 	echo "File saved in /tmp directory"
 }
+
 
 title() {
 	echo -ne "
