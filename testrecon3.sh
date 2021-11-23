@@ -6,6 +6,7 @@ How would you like to use tshark?
 1) Read Packet Data
 2) Most Frequent Source IP
 3) Most Frequent Destination IP
+4) Capture Data
 0) Exit
 Choose an option: "
 	read -r ans
@@ -18,6 +19,9 @@ Choose an option: "
 		;;
 	3)	
 		ipdestinationmenu
+		;;
+	4)
+		capturedatamenu
 		;;
 	0)
         	echo "Bye bye."
@@ -49,7 +53,7 @@ Choose an option: "
 	read -r ans
 	case $ans in 
 	1)
-		tshark -r $Pcap > packet_data
+		tshark -r $Pcap > packet_data.txt
 		echo "Saved to file! -> packet_data"
 		reportoptions
 		;;
@@ -108,6 +112,15 @@ Choose an option: "
 		reportoptions
                 ;;
 	esac
+}
+
+capturedatamenu() {
+	echo -ne "
+Enter the name of the file you would like to save your data: "
+	read -r 
+        Datafile=$REPLY
+        tshark -a duration:60 -w /tmp/$Datafile.pcap
+	echo "File saved in /tmp directory"
 }
 
 mainmenu
