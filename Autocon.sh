@@ -95,6 +95,7 @@ OS and Services
 1)Both
 2)Just OS
 3)Just Services
+4)Back
 "
 	read -r ans
 	case $ans in
@@ -106,8 +107,12 @@ OS and Services
 		nmap -O $ip
 		os
 		;;
-	3)	nmap -sV $ip
+	3)
+		nmap -sV $ip
 		os
+		;;
+	4)
+		nmapoptions
 		;;
 	esac
 }
@@ -118,6 +123,7 @@ Port
 1)All
 2)Just TCP
 3)Just UDP
+4)Back
 Port Scan "
 	read -r ans
 	case $ans in
@@ -142,6 +148,9 @@ Port Scan "
 				nikto -host $ip
 			fi
 		;;
+	4)
+		nmapoptions
+		;;
 	esac
 }
 
@@ -150,6 +159,7 @@ showhosts() {
 Show Hosts
 1)Online Hosts
 2)All Hosts
+3)Back
 "
 	read -r ans
 	case $ans in
@@ -158,6 +168,9 @@ Show Hosts
 		;;
 	2)
 		nmap -Pn $ip
+		;;
+	3)
+		nmapoptions
 		;;
 	esac
 }
@@ -168,6 +181,7 @@ Security Scans
 1)Firewall Detection
 2)Malware Scan
 3)Vulnerability Scan
+4)Back
 "
 	read -r ans
 	case $ans in
@@ -179,6 +193,9 @@ Security Scans
 		;;
 	3)
 		nmap -Pn --script vuln $ip
+		;;
+	4)
+		nmapoptions
 		;;
 	esac
 }
