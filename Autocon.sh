@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# this is the main menu 
 mainmenu() {
 	echo -ne "
 MAIN MENU
