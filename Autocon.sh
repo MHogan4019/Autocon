@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# this is the main menu 
+# this is the main menu for the Autocon tool
 mainmenu() {
 	echo -ne "
 MAIN MENU
@@ -29,6 +29,8 @@ Choose an option:  "
 	esac
 }
 
+# beginnings of the nmap menu to divulge into specified scanning template
+
 nmapmenu() {
 	echo -ne "
 NMAP
@@ -49,12 +51,16 @@ Choose an option "
 	esac
 } 
 
+# stores the ip of scanning target for Nmap
+
 getip() {
 	echo -ne "
 What is the IP? "
 	read -r
 	ip=$REPLY
 }
+
+# once the IP is stored you are able to select a scanning function
 
 nmapoptions() {
 	echo -ne "
@@ -90,6 +96,9 @@ What do you want to find? "
 		;;
 	esac
 }
+
+# submenu for the nmap operating system scan
+
 os() {
 	echo -ne "
 OS and Services
@@ -117,6 +126,8 @@ OS and Services
 		;;
 	esac
 }
+
+# checks port s of IP listed divided by type
 
 port() {
 	echo -ne "
@@ -155,6 +166,8 @@ Port Scan "
 	esac
 }
 
+# This function shows what hosts are connected to the internet
+
 showhosts() {
 	echo -ne "
 Show Hosts
@@ -175,6 +188,8 @@ Show Hosts
 		;;
 	esac
 }
+
+# division of nmap checking for files of malicious intent on ur machine
 
 security() {
 	echo -ne "
@@ -200,6 +215,8 @@ Security Scans
 		;;
 	esac
 }
+
+# main submenu explaining tshark options
 
 tsharkmenu() {
     echo -ne "
@@ -235,6 +252,8 @@ Choose an option: "
 	esac
 }
 
+# this option stores pcap file
+
 packetdatamenu() {
 	echo -ne "
 Read Packet Data 
@@ -244,6 +263,8 @@ What is the Pcap File? "
 	saveoptions
 }
 
+# with output of pcap data this division makes a new file under name chosen
+
 savename() {
 	echo -ne "
 What would you like to name the file? "
@@ -251,6 +272,8 @@ What would you like to name the file? "
 	read -r 
 	file=$REPLY
 }
+
+# user chooses whether of not to save the data scanned
 
 saveoptions() {
 	echo -ne "
@@ -273,6 +296,8 @@ Choose an option: "
 	esac
 }
 
+# final instance giving option to create more scans or exit
+
 reportoptions() {
 	echo -ne "
 Would you like to run another report?
@@ -292,6 +317,8 @@ Choose an option: "
 	esac
 }
 
+# code that mines for most frequent ip source in pcap
+
 ipsourcemenu() {
 	echo -ne "
 Most frequent IP Address 
@@ -300,6 +327,8 @@ What is the Pcap file? "
 	pcap2=$REPLY
         saveoptions2
 }
+
+# another instance giving the user the ability to save a differet branch of scan for Tshark
 
 saveoptions2() {
         echo -ne "
@@ -323,6 +352,8 @@ Choose an option: "
 	esac
 }
 
+# code that mines for most frequent ip destination in pcap
+
 ipdestinationmenu() {
 	 echo -ne "
 Most frequent IP Address 
@@ -332,6 +363,9 @@ What is the Pcap file? "
         saveoptions3
 
 }
+
+# another instance giving the user the ability to save a differet branch of scan for Tshark
+
 saveoptions3() {
 	echo -ne "
 Save to file?
@@ -353,6 +387,8 @@ Choose an option: "
 	esac
 }
 
+# submenu designating a new scan capture for Tshark and for how many seconds
+
 capturedatamenu() {
 	echo -ne "
 Enter the name of the file you would like to save your data: " 
@@ -366,6 +402,7 @@ For how many seconds would you like to capture data: "
 	echo "File saved in /tmp directory"
 }
 
+# Autocon lauch text
 
 title() {
 	echo -ne "
@@ -373,7 +410,7 @@ Fueling System..."
 
 speed
 
-
+# Autocon lauch logo
 mainmenu
 }
 
